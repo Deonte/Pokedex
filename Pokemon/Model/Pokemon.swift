@@ -10,8 +10,7 @@ import UIKit
 
 struct Pokemon {
     let name: String
-    let number: Int
-    let image: UIImage?
+    let id: Int
+    let sprite: String
     let type: String
-    //let traits = [] Need to add trai
 }

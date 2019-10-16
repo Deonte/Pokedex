@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		043422552353C6A400BAF4A2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043422542353C6A400BAF4A2 /* Constants.swift */; };
+		04987C382356881C002E2706 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04987C372356881C002E2706 /* .gitignore */; };
 		04B509B52353B35700D20D96 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B42353B35700D20D96 /* MainTabBarController.swift */; };
 		04B509B72353B65700D20D96 /* MovesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B62353B65700D20D96 /* MovesController.swift */; };
 		04B509B92353B67A00D20D96 /* ItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B82353B67A00D20D96 /* ItemsController.swift */; };
@@ -22,11 +23,13 @@
 
 /* Begin PBXFileReference section */
 		043422542353C6A400BAF4A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		04987C3623564523002E2706 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		04987C372356881C002E2706 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04B509B42353B35700D20D96 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		04B509B62353B65700D20D96 /* MovesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesController.swift; sourceTree = "<group>"; };
 		04B509B82353B67A00D20D96 /* ItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsController.swift; sourceTree = "<group>"; };
 		04B509BA2353BE2500D20D96 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
-		04F11BDC234F73D300734B62 /* Pokemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F11BDC234F73D300734B62 /* Pokédex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pokédex.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F11BDF234F73D300734B62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F11BE1234F73D300734B62 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		04F11BE3234F73D300734B62 /* PokemonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonController.swift; sourceTree = "<group>"; };
@@ -71,7 +74,7 @@
 		04F11BDD234F73D300734B62 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				04F11BDC234F73D300734B62 /* Pokemon.app */,
+				04F11BDC234F73D300734B62 /* Pokédex.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,6 +82,8 @@
 		04F11BDE234F73D300734B62 /* Pokemon */ = {
 			isa = PBXGroup;
 			children = (
+				04987C372356881C002E2706 /* .gitignore */,
+				04987C3623564523002E2706 /* README.md */,
 				043422562353C6AD00BAF4A2 /* Constants */,
 				04F11BF3234F7EC500734B62 /* Model */,
 				04F11BF4234F7ED200734B62 /* View */,
@@ -162,7 +167,7 @@
 			);
 			name = Pokemon;
 			productName = Pokemon;
-			productReference = 04F11BDC234F73D300734B62 /* Pokemon.app */;
+			productReference = 04F11BDC234F73D300734B62 /* Pokédex.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -204,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04F11BEC234F73D500734B62 /* LaunchScreen.storyboard in Resources */,
+				04987C382356881C002E2706 /* .gitignore in Resources */,
 				04F11BE9234F73D500734B62 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,7 +415,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.deontecodes.Pokemon;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Pokédex";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -428,7 +434,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.deontecodes.Pokemon;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Pokédex";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

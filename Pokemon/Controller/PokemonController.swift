@@ -17,9 +17,9 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     
     let baseURL = "https://pokeapi.co/api/v2/pokemon/"
     
-    let pokemon = [
-        Pokemon(name: "Pikachu", number: 36, image: nil, type: "Electric"),
-        Pokemon(name: "Charmander", number: 4, image: nil, type: "Fire"),
+    var pokemon = [
+        Pokemon(name: "Squirtle", id: 7, sprite: "", type: "Water"),
+        Pokemon(name: "Pikachu", id: 25, sprite: "", type: "Electric")
     ]
     
     let cellID = "cellID"
@@ -28,11 +28,8 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
-        //getPokemonData(url: baseURL)
-        
         setupTableView()
         setupSearchController()
-        
     }
     
     //MARK:- Setup Search
@@ -52,7 +49,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         let pokeURL = "https://pokeapi.co/api/v2/pokemon/\(searchText.lowercased())/"
         
         getPokemonData(url: pokeURL)
-
+        
     }
     
     //MARK:- Setup TableView
@@ -69,9 +66,10 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let pokemon = self.pokemon[indexPath.row]
-        cell.textLabel?.text = "\(pokemon.name)\n#\(pokemon.number) Type: \(pokemon.type)"
+        cell.textLabel?.text = "\(pokemon.name)\n#\(pokemon.id) Type: \(pokemon.type)"
         cell.textLabel?.numberOfLines = -1
         cell.imageView?.image = #imageLiteral(resourceName: "pokemonImage")
+        
         return cell
     }
     
@@ -98,10 +96,11 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     //MARK: - JSON Parsing
     
     func updatePokemonData(json : JSON) {
-        
+    
         let pokemonName = json["name"]
         let pokemonType = json["types"][0]["type"]["name"]
         let pokemonSpecialMove = json["abilities"][0]["ability"]["name"]
+        
         print("Pokemon name is: \(pokemonName.string?.capitalized ?? "")\nIt is a \(pokemonType) type pokemon.\nAnd one of it's special abilities is: \(pokemonSpecialMove).")
         
     }
