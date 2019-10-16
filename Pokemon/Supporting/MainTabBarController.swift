@@ -25,8 +25,8 @@ class MainTabBarController: UITabBarController {
         navController.tabBarItem.title = title
         rootViewController.navigationItem.title = title
         navController.tabBarItem.image = image
-        //navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.systemRed]
-        //navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.systemRed]
+//        navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.mainTintColor]
+//        navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.mainTintColor]
         return navController
     }
     
@@ -40,8 +40,11 @@ class MainTabBarController: UITabBarController {
     
     fileprivate func setupNavAndTabBar() {
         UINavigationBar.appearance().prefersLargeTitles = true
-        UINavigationBar.appearance().tintColor = .systemRed
-        tabBar.tintColor = .systemRed
+        UINavigationBar.appearance().tintColor = .black
+        tabBar.tintColor = .black
+        
+        UITabBar.appearance().isOpaque = true
+        UITabBar.appearance().backgroundColor = .mainBackgroundColor
     }
     
     

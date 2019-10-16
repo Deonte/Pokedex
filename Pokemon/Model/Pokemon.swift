@@ -12,5 +12,6 @@ struct Pokemon {
     let name: String
     let id: Int
     let sprite: String
-    let type: String
+    let primaryType: String
+    //let secondaryType: String?
 }

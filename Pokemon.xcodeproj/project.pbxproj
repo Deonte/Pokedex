@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		043422552353C6A400BAF4A2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043422542353C6A400BAF4A2 /* Constants.swift */; };
+		045CB2A023579F4200EBC6BD /* TypeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045CB29F23579F4200EBC6BD /* TypeColors.swift */; };
+		045CB2A223579F5F00EBC6BD /* LargeTypeImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045CB2A123579F5F00EBC6BD /* LargeTypeImages.swift */; };
+		045CB2A423579F7400EBC6BD /* SmallTypeImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045CB2A323579F7400EBC6BD /* SmallTypeImages.swift */; };
+		045CB2A72357AEB500EBC6BD /* PokemonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045CB2A52357AEB500EBC6BD /* PokemonCell.swift */; };
+		045CB2A82357AEB500EBC6BD /* PokemonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045CB2A62357AEB500EBC6BD /* PokemonCell.xib */; };
 		04987C382356881C002E2706 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04987C372356881C002E2706 /* .gitignore */; };
 		04B509B52353B35700D20D96 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B42353B35700D20D96 /* MainTabBarController.swift */; };
 		04B509B72353B65700D20D96 /* MovesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B62353B65700D20D96 /* MovesController.swift */; };
@@ -23,7 +28,12 @@
 
 /* Begin PBXFileReference section */
 		043422542353C6A400BAF4A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		04987C3623564523002E2706 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		045CB29F23579F4200EBC6BD /* TypeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeColors.swift; sourceTree = "<group>"; };
+		045CB2A123579F5F00EBC6BD /* LargeTypeImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTypeImages.swift; sourceTree = "<group>"; };
+		045CB2A323579F7400EBC6BD /* SmallTypeImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallTypeImages.swift; sourceTree = "<group>"; };
+		045CB2A52357AEB500EBC6BD /* PokemonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCell.swift; sourceTree = "<group>"; };
+		045CB2A62357AEB500EBC6BD /* PokemonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PokemonCell.xib; sourceTree = "<group>"; };
+		04987C3623564523002E2706 /* Requirements.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Requirements.md; sourceTree = "<group>"; };
 		04987C372356881C002E2706 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04B509B42353B35700D20D96 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		04B509B62353B65700D20D96 /* MovesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesController.swift; sourceTree = "<group>"; };
@@ -57,6 +67,9 @@
 			isa = PBXGroup;
 			children = (
 				043422542353C6A400BAF4A2 /* Constants.swift */,
+				045CB29F23579F4200EBC6BD /* TypeColors.swift */,
+				045CB2A123579F5F00EBC6BD /* LargeTypeImages.swift */,
+				045CB2A323579F7400EBC6BD /* SmallTypeImages.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -83,7 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				04987C372356881C002E2706 /* .gitignore */,
-				04987C3623564523002E2706 /* README.md */,
+				04987C3623564523002E2706 /* Requirements.md */,
 				043422562353C6AD00BAF4A2 /* Constants */,
 				04F11BF3234F7EC500734B62 /* Model */,
 				04F11BF4234F7ED200734B62 /* View */,
@@ -104,6 +117,8 @@
 		04F11BF4234F7ED200734B62 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				045CB2A52357AEB500EBC6BD /* PokemonCell.swift */,
+				045CB2A62357AEB500EBC6BD /* PokemonCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -209,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04F11BEC234F73D500734B62 /* LaunchScreen.storyboard in Resources */,
+				045CB2A82357AEB500EBC6BD /* PokemonCell.xib in Resources */,
 				04987C382356881C002E2706 /* .gitignore in Resources */,
 				04F11BE9234F73D500734B62 /* Assets.xcassets in Resources */,
 			);
@@ -264,8 +280,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				04B509BB2353BE2500D20D96 /* Pokemon.swift in Sources */,
+				045CB2A023579F4200EBC6BD /* TypeColors.swift in Sources */,
 				04F11BE4234F73D300734B62 /* PokemonController.swift in Sources */,
+				045CB2A223579F5F00EBC6BD /* LargeTypeImages.swift in Sources */,
 				04F11BE0234F73D300734B62 /* AppDelegate.swift in Sources */,
+				045CB2A72357AEB500EBC6BD /* PokemonCell.swift in Sources */,
+				045CB2A423579F7400EBC6BD /* SmallTypeImages.swift in Sources */,
 				04B509B92353B67A00D20D96 /* ItemsController.swift in Sources */,
 				04B509B52353B35700D20D96 /* MainTabBarController.swift in Sources */,
 				04F11BE2234F73D300734B62 /* SceneDelegate.swift in Sources */,
