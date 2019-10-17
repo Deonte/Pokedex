@@ -33,9 +33,6 @@ extension Int: Formattable { }
 extension Double: Formattable { }
 extension Float: Formattable { }
 
-
-// TYPE Strings
-
 struct Types {
     static let bugType      = "bug"
     static let darkType     = "dark"

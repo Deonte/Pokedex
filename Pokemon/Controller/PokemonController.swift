@@ -21,7 +21,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
        
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         view.backgroundColor = .mainBackgroundColor
         setupTableView()
         setupSearchController()
@@ -39,11 +38,8 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
-        
-        // Implement Alomofire to search Pokemon API
-        
+      
         let pokeURL = "https://pokeapi.co/api/v2/pokemon/\(searchText.lowercased())/"
-        
         getPokemonData(url: pokeURL)
         
     }
@@ -51,8 +47,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     //MARK:- Setup TableView
     
     fileprivate func setupTableView() {
-        //tableView.register(PokemonCell.self, forCellReuseIdentifier: pokemonCellID)
-        
         let nib = UINib(nibName: "PokemonCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: pokemonCellID)
     }
@@ -102,8 +96,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         
         Alamofire.request(url, method: .get ).responseJSON { response in
                 if response.result.isSuccess {
-                    
-                    //print("Sucess! Found Pokemon")
+        
                     let pokemon : JSON = JSON(response.result.value!)
                     self.updateSearchedPokemonData(json: pokemon)
                     self.tableView.reloadData()
@@ -132,7 +125,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         
         pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", primaryTypeImage: primaryTypeImage, secondaryType: pokemonSecondaryType.string ?? "", secondaryTypeImage: secondaryTypeImage))
         
-        print(pokemon.description)
+       // print(pokemon.description)
 //
 //        guard let name = pokemonName.string?.capitalized else { return }
 //        guard let id = pokemonID.int else { return }
@@ -154,17 +147,12 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     fileprivate var urls = [String]()
     
     func updatePokemonData(json : JSON) {
-        
-        let totalResults = json["count"]
-        print("It's \(totalResults) pokemon.")
-        
+ 
         for i in 0...19 {
             let result = json["results"][i]["url"]
             urls.append(result.string ?? "")
             getSearchedPokemonData(url: urls[i])
         }
-          print(urls.description)
-       
         
       }
 
