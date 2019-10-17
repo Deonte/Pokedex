@@ -37,5 +37,7 @@ struct TypeColors {
     static let rockType     = UIColor(hex: 0xCEC18C)
     static let steelType    = UIColor(hex: 0x5596A4)
     static let waterType    = UIColor(hex: 0x559EDF)
+    static let unknownType  = UIColor(hex: 0x6D6D6D)
+    static let shadowType   = UIColor(hex: 0x131313)
 }
 

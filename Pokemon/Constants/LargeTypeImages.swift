@@ -28,4 +28,6 @@ struct LargeTypeImg {
     static let rockType     = #imageLiteral(resourceName: "Rock")
     static let steelType    = #imageLiteral(resourceName: "Steel")
     static let waterType    = #imageLiteral(resourceName: "Water")
+    static let unknownType  = #imageLiteral(resourceName: "Unknown")
+    static let shadowType   = #imageLiteral(resourceName: "Shadow")
 }

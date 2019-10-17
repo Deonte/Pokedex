@@ -43,7 +43,7 @@ class MainTabBarController: UITabBarController {
         UINavigationBar.appearance().tintColor = .black
         tabBar.tintColor = .black
         
-        UITabBar.appearance().isOpaque = true
+        UITabBar.appearance().isOpaque = false
         UITabBar.appearance().backgroundColor = .mainBackgroundColor
     }
     

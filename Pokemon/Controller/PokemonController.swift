@@ -77,7 +77,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 100
     }
     
     //MARK: - Networking
@@ -122,13 +122,30 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     
         let pokemonName = json["name"]
         let pokemonPrimaryType = json["types"][0]["type"]["name"]
+        let pokemonSecondaryType = json["types"][1]["type"]["name"]
         let pokemonID = json["id"]
         let pokemonSprite = json["sprites"]["front_default"]
-        let pokemonSpecialMove = json["abilities"][0]["ability"]["name"]
+        //let pokemonSpecialMove = json["abilities"][0]["ability"]["name"]
         
-        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? ""))
+        let primaryTypeImage = getTypeImage(type: pokemonPrimaryType.string ?? "")
+        let secondaryTypeImage = getTypeImage(type: pokemonSecondaryType.string ?? "")
         
-        print(pokemon.count)
+        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", primaryTypeImage: primaryTypeImage, secondaryType: pokemonSecondaryType.string ?? "", secondaryTypeImage: secondaryTypeImage))
+        
+        print(pokemon.description)
+//
+//        guard let name = pokemonName.string?.capitalized else { return }
+//        guard let id = pokemonID.int else { return }
+//        guard let sprite = pokemonSprite.string else { return }
+//        guard let type = pokemonPrimaryType.string else { return }
+//        guard let secondaryType = pokemonSecondaryType.string else { return }
+//        let typeImage = getTypeImage(type: type)
+//
+        //pokemon.append(Pokemon(name: name, id: id, sprite: sprite, primaryType: type, primaryTypeImage: typeImage, secondaryType: secondaryType))
+//     
+//        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", primaryTypeImage: typeImage, secondaryType: pokemonSecondaryType.string ?? ""))
+//        
+        //print(pokemon.count)
         
         //print(pokemon)
         //print("Pokemon name is: \(pokemonName.string?.capitalized ?? "")\nIt is a \(pokemonPrimaryType) type pokemon.\nAnd one of it's special abilities is: \(pokemonSpecialMove).\nSprite: \(pokemonSprite)\nNumber: \(pokemonID)")
@@ -139,16 +156,14 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     func updatePokemonData(json : JSON) {
         
         let totalResults = json["count"]
-        
         print("It's \(totalResults) pokemon.")
         
         for i in 0...19 {
             let result = json["results"][i]["url"]
             urls.append(result.string ?? "")
-            
             getSearchedPokemonData(url: urls[i])
         }
-        
+          print(urls.description)
        
         
       }
@@ -160,3 +175,4 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
 
 
 
+    

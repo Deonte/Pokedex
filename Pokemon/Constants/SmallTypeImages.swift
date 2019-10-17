@@ -27,4 +27,6 @@ struct SmallTypeImgs {
     static let rockType     = #imageLiteral(resourceName: "smallRock")
     static let steelType    = #imageLiteral(resourceName: "smallSteel")
     static let waterType    = #imageLiteral(resourceName: "smallWater")
+    static let unknownType  = #imageLiteral(resourceName: "smallUnknown")
+    static let shadowType   = #imageLiteral(resourceName: "smallShadow")
 }
