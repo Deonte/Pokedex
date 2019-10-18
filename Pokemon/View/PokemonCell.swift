@@ -37,7 +37,7 @@ class PokemonCell: UITableViewCell {
                     self.secondaryTypeImageView.isHidden = false
                     self.primaryTypeImageView.image = self.pokemon.secondaryTypeImage
                     self.secondaryTypeImageView.image = self.pokemon.primaryTypeImage
-                } else {
+                } else if secondary.isEmpty == true {
                     self.primaryTypeImageView.isHidden = false
                     self.primaryTypeImageView.image = self.pokemon.primaryTypeImage
                 }

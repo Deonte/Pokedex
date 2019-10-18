@@ -15,16 +15,24 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     //Implement search controller
     let searchControlller = UISearchController(searchResultsController: nil)
     
-    let baseURL = "https://pokeapi.co/api/v2/pokemon/"
+    let randomNumber = Int.random(in: 0 ..< 914)
+    lazy var randomPokemonURL = "https://pokeapi.co/api/v2/pokemon?offset=\(randomNumber / 2)&limit=50"
     
     var pokemon = [Pokemon]()
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        tableView.reloadData()
+        
+    }
        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackgroundColor
         setupTableView()
         setupSearchController()
-        getPokemonData(url: baseURL)
+        getPokemonData(url: randomPokemonURL)
     }
     
     //MARK:- Setup Search
@@ -148,7 +156,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     
     func updatePokemonData(json : JSON) {
  
-        for i in 0...19 {
+        for i in 0...49 {
             let result = json["results"][i]["url"]
             urls.append(result.string ?? "")
             getSearchedPokemonData(url: urls[i])
