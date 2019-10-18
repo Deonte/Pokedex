@@ -29,18 +29,15 @@ class PokemonCell: UITableViewCell {
             
             pokemonNameLabel.text = pokemon.name
             pokedexNumberLabel.text = pokemon.id.format(pattern: "#%03d")
-            
-            let secondary = pokemon.secondaryType
-            DispatchQueue.main.async {
-                if secondary.isEmpty == false {
-                    self.primaryTypeImageView.isHidden = false
-                    self.secondaryTypeImageView.isHidden = false
-                    self.primaryTypeImageView.image = self.pokemon.secondaryTypeImage
-                    self.secondaryTypeImageView.image = self.pokemon.primaryTypeImage
-                } else if secondary.isEmpty == true {
-                    self.primaryTypeImageView.isHidden = false
-                    self.primaryTypeImageView.image = self.pokemon.primaryTypeImage
-                }
+          
+            if pokemon.secondaryType == "" {
+                primaryTypeImageView.isHidden = false
+                primaryTypeImageView.image = getTypeImage(type: pokemon.primaryType )
+            } else {
+                primaryTypeImageView.isHidden = false
+                secondaryTypeImageView.isHidden = false
+                primaryTypeImageView.image = getTypeImage(type: pokemon.secondaryType )
+                secondaryTypeImageView.image = getTypeImage(type: pokemon.primaryType )
             }
         }
     }

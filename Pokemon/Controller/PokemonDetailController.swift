@@ -10,11 +10,19 @@ import UIKit
 
 
 class PokemonDetailController: UIViewController {
+   
+    var selectedPokemon: Pokemon?
+    
+    var pdView = PokemonDetailView()
+    
+    override func loadView() {
+        super.loadView()
+        view = pdView
+        pdView.selectedPokemon = selectedPokemon
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .yellow
-        print("I'm Here!")
     }
 }
