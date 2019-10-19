@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 struct LargeTypeImg {
     static let bugType      = #imageLiteral(resourceName: "Bug")
     static let darkType     = #imageLiteral(resourceName: "Dark")

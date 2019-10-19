@@ -16,13 +16,15 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     //MARK:- Instance Variables
     
     fileprivate let pokemonHud = JGProgressHUD(style: .dark)
-    fileprivate let searchControlller = UISearchController(searchResultsController: nil)
-    fileprivate let randomNumber = Int.random(in: 0 ..< 914)
-    fileprivate lazy var randomPokemonURL = "https://pokeapi.co/api/v2/pokemon?offset=\(randomNumber / 2)&limit=50"
+    fileprivate let searchController = UISearchController(searchResultsController: nil)
+    fileprivate let randomOffset = Int.random(in: 0 ..< 914)
+    fileprivate let limit = 50
+    fileprivate lazy var randomPokemonURL = "https://pokeapi.co/api/v2/pokemon?offset=\(randomOffset / 2)&limit=\(limit)"
     
     fileprivate var pokemon = [Pokemon]()
     fileprivate var urls = [String]()
     
+    //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackgroundColor
@@ -34,10 +36,10 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     //MARK:- Setup Search
     
     fileprivate func setupSearchController() {
-        navigationItem.searchController = searchControlller
+        navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        searchControlller.obscuresBackgroundDuringPresentation = false
-        searchControlller.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -64,13 +66,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         
         let pokemon = self.pokemon[indexPath.row]
         cell.pokemon = pokemon
-        
-        //        cell.spriteImageView.image = #imageLiteral(resourceName: "pokemonImage")
-        //        cell.pokemonNameLabel.text = pokemon.name
-        //        cell.pokedexNumberLabel.text = pokemon.id.format(pattern: "#%03d") //String(format: "#%03d", [pokemon.id]) //"#\(pokemon.id)"
-        //        cell.primaryTypeImageView.image = #imageLiteral(resourceName: "smallWater")
-        //        cell.secondaryTypeImageView.image = #imageLiteral(resourceName: "smallWater")
-        
+    
         return cell
     }
     
@@ -95,15 +91,13 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
             if response.result.isSuccess {
                 
                 let pokemon : JSON = JSON(response.result.value!)
-                self.updatePokemonData(json: pokemon)
+                self.getPokemonURLS(json: pokemon)
                 
             } else {
                 print("Error: \(String(describing: response.result.error))")
                 self.pokemonHud.textLabel.text = String(describing: response.result.error)
-                
             }
         }
-        
     }
     
     fileprivate func getSearchedPokemonData(url: String) {
@@ -114,15 +108,14 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
                 let pokemon : JSON = JSON(response.result.value!)
                 self.updateSearchedPokemonData(json: pokemon)
                 self.tableView.reloadData()
+                
             } else {
                 print("Error: \(String(describing: response.result.error))")
             }
         }
         
     }
-    
-    
-    
+
     //MARK: - JSON Parsing
     
     fileprivate func updateSearchedPokemonData(json : JSON) {
@@ -135,27 +128,10 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         //let pokemonSpecialMove = json["abilities"][0]["ability"]["name"]
        
         pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? ""))
-        
-        // print(pokemon.description)
-        //
-        //        guard let name = pokemonName.string?.capitalized else { return }
-        //        guard let id = pokemonID.int else { return }
-        //        guard let sprite = pokemonSprite.string else { return }
-        //        guard let type = pokemonPrimaryType.string else { return }
-        //        guard let secondaryType = pokemonSecondaryType.string else { return }
-        //        let typeImage = getTypeImage(type: type)
-        //
-        //pokemon.append(Pokemon(name: name, id: id, sprite: sprite, primaryType: type, primaryTypeImage: typeImage, secondaryType: secondaryType))
-        //
-        //        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", primaryTypeImage: typeImage, secondaryType: pokemonSecondaryType.string ?? ""))
-        //
-        //print(pokemon.count)
-        
-        //print(pokemon)
-        //print("Pokemon name is: \(pokemonName.string?.capitalized ?? "")\nIt is a \(pokemonPrimaryType) type pokemon.\nAnd one of it's special abilities is: \(pokemonSpecialMove).\nSprite: \(pokemonSprite)\nNumber: \(pokemonID)")
+     
     }
     
-    fileprivate func updatePokemonData(json : JSON) {
+    fileprivate func getPokemonURLS(json : JSON) {
         
         for i in 0...49 {
             let result = json["results"][i]["url"]

@@ -25,4 +25,11 @@ class PokemonDetailController: UIViewController {
         super.viewDidLoad()
         
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let vc = PokemonController()
+        vc.tableView.reloadData().self
+        
+        print("Dissapearing")
+    }
 }

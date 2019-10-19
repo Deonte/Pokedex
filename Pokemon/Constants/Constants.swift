@@ -10,6 +10,7 @@ import UIKit
 
 
 let pokemonCellID = "pokemonCellId"
+let moveCellID = "moveCellID"
 
 
 extension UIColor {
@@ -29,6 +30,7 @@ extension Formattable where Self: CVarArg {
         return String(format: pattern, arguments: [self])
     }
 }
+
 extension Int: Formattable { }
 extension Double: Formattable { }
 extension Float: Formattable { }
