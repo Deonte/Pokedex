@@ -16,7 +16,7 @@ class MoveCell: UITableViewCell {
     
     var moves: Move! {
         didSet {
-            moveNameLabel.text = moves.name
+            moveNameLabel.text = moves.name.capitalized
             moveTypeImageView.image = getTypeImage(type: moves.type)
         }
     }

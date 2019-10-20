@@ -15,6 +15,7 @@
 		045CB2A423579F7400EBC6BD /* SmallTypeImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045CB2A323579F7400EBC6BD /* SmallTypeImages.swift */; };
 		045CB2A72357AEB500EBC6BD /* PokemonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045CB2A52357AEB500EBC6BD /* PokemonCell.swift */; };
 		045CB2A82357AEB500EBC6BD /* PokemonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045CB2A62357AEB500EBC6BD /* PokemonCell.xib */; };
+		046CCA93235CD4E900867C1A /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CCA92235CD4E900867C1A /* CALayer+extension.swift */; };
 		04983AFD235B914900A300EA /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04983AFC235B914900A300EA /* Move.swift */; };
 		04983B00235B93D800A300EA /* MoveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04983AFE235B93D800A300EA /* MoveCell.swift */; };
 		04983B01235B93D800A300EA /* MoveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04983AFF235B93D800A300EA /* MoveCell.xib */; };
@@ -25,6 +26,8 @@
 		04B509B72353B65700D20D96 /* MovesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B62353B65700D20D96 /* MovesController.swift */; };
 		04B509B92353B67A00D20D96 /* ItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B82353B67A00D20D96 /* ItemsController.swift */; };
 		04B509BB2353BE2500D20D96 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509BA2353BE2500D20D96 /* Pokemon.swift */; };
+		04E70A40235CD81F0078AF90 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E70A3F235CD81F0078AF90 /* GlobalFunctions.swift */; };
+		04E70A42235CE8B80078AF90 /* AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E70A41235CE8B80078AF90 /* AutoLayout.swift */; };
 		04F11BE0234F73D300734B62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F11BDF234F73D300734B62 /* AppDelegate.swift */; };
 		04F11BE2234F73D300734B62 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F11BE1234F73D300734B62 /* SceneDelegate.swift */; };
 		04F11BE4234F73D300734B62 /* PokemonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F11BE3234F73D300734B62 /* PokemonController.swift */; };
@@ -42,6 +45,7 @@
 		045CB2A323579F7400EBC6BD /* SmallTypeImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallTypeImages.swift; sourceTree = "<group>"; };
 		045CB2A52357AEB500EBC6BD /* PokemonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCell.swift; sourceTree = "<group>"; };
 		045CB2A62357AEB500EBC6BD /* PokemonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PokemonCell.xib; sourceTree = "<group>"; };
+		046CCA92235CD4E900867C1A /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		04983AFC235B914900A300EA /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		04983AFE235B93D800A300EA /* MoveCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveCell.swift; sourceTree = "<group>"; };
 		04983AFF235B93D800A300EA /* MoveCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoveCell.xib; sourceTree = "<group>"; };
@@ -53,6 +57,8 @@
 		04B509B62353B65700D20D96 /* MovesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesController.swift; sourceTree = "<group>"; };
 		04B509B82353B67A00D20D96 /* ItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsController.swift; sourceTree = "<group>"; };
 		04B509BA2353BE2500D20D96 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
+		04E70A3F235CD81F0078AF90 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
+		04E70A41235CE8B80078AF90 /* AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayout.swift; sourceTree = "<group>"; };
 		04F11BDC234F73D300734B62 /* Pokédex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pokédex.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F11BDF234F73D300734B62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F11BE1234F73D300734B62 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,9 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				043422542353C6A400BAF4A2 /* Constants.swift */,
+				04E70A3F235CD81F0078AF90 /* GlobalFunctions.swift */,
 				045CB29F23579F4200EBC6BD /* TypeColors.swift */,
 				045CB2A123579F5F00EBC6BD /* LargeTypeImages.swift */,
 				045CB2A323579F7400EBC6BD /* SmallTypeImages.swift */,
+				046CCA92235CD4E900867C1A /* CALayer+extension.swift */,
+				04E70A41235CE8B80078AF90 /* AutoLayout.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -303,8 +312,10 @@
 			files = (
 				04983B00235B93D800A300EA /* MoveCell.swift in Sources */,
 				0416DBF6235A2E53000E8E5C /* PokemonDetailView.swift in Sources */,
+				04E70A40235CD81F0078AF90 /* GlobalFunctions.swift in Sources */,
 				04B509BB2353BE2500D20D96 /* Pokemon.swift in Sources */,
 				04983B07235BAA3800A300EA /* MoveDetailController.swift in Sources */,
+				046CCA93235CD4E900867C1A /* CALayer+extension.swift in Sources */,
 				045CB2A023579F4200EBC6BD /* TypeColors.swift in Sources */,
 				04F11BE4234F73D300734B62 /* PokemonController.swift in Sources */,
 				045CB2A223579F5F00EBC6BD /* LargeTypeImages.swift in Sources */,
@@ -314,6 +325,7 @@
 				04983B09235BAB9500A300EA /* MoveDetailView.swift in Sources */,
 				04983AFD235B914900A300EA /* Move.swift in Sources */,
 				04B509B92353B67A00D20D96 /* ItemsController.swift in Sources */,
+				04E70A42235CE8B80078AF90 /* AutoLayout.swift in Sources */,
 				04B509B52353B35700D20D96 /* MainTabBarController.swift in Sources */,
 				04F11BE2234F73D300734B62 /* SceneDelegate.swift in Sources */,
 				04B509B72353B65700D20D96 /* MovesController.swift in Sources */,

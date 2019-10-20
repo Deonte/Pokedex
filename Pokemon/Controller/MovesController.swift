@@ -115,15 +115,16 @@ class MovesController: UITableViewController, UISearchBarDelegate {
     
     fileprivate func updateMovesList(json : JSON) {
         
-        let name      = json["name"]
-        let type      = json["type"]["name"]
-        let basePower = json["power"]
-        let id        = json["id"]
-        let accuracy  = json["accuracy"]
-        let pp        = json["pp"]
-        let effect    = json["effect_entries"][0]["effect"]
+        let name         = json["name"]
+        let type         = json["type"]["name"]
+        let basePower    = json["power"]
+        let id           = json["id"]
+        let accuracy     = json["accuracy"]
+        let pp           = json["pp"]
+        let effect       = json["effect_entries"][0]["effect"]
+        let effectChance = json["effect_chance"]
   
-        moves.append(Move(name: name.string ?? "", type: type.string ?? "", basePower: basePower.int ?? 0, id: id.int ?? 0, accuracy: accuracy.int ?? 0, pp: pp.int ?? 0, effect: effect.string ?? ""))
+        moves.append(Move(name: name.string ?? "", type: type.string ?? "", basePower: basePower.int ?? 0, id: id.int ?? 0, accuracy: accuracy.int ?? 0, pp: pp.int ?? 0, effect: effect.string ?? "", effectChance: effectChance.int ?? 0))
   
     }
     

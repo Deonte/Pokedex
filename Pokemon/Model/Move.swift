@@ -16,5 +16,5 @@ struct Move {
     let accuracy: Int
     let pp: Int
     let effect: String
-    //let effectChance: Int
+    let effectChance: Int
 }

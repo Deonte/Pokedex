@@ -17,7 +17,6 @@ class MoveDetailController: UIViewController {
         super.loadView()
         view = mdView
         mdView.selectedMove = selectedMove
-        mdView.descriptionText.backgroundColor = .white
     }
     
     override func viewDidLoad() {
