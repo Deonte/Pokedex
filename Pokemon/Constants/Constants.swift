@@ -11,7 +11,7 @@ import UIKit
 
 let pokemonCellID = "pokemonCellId"
 let moveCellID = "moveCellID"
-
+let itemCellID = "itemCellID"
 
 extension UIColor {
     static let mainTintColor = UIColor(hex: 0xFF3B30)
@@ -41,7 +41,7 @@ struct Types {
     static let dragonType   = "dragon"
     static let electricType = "electric"
     static let fairyType    = "fairy"
-    static let fightType    = "fight"
+    static let fightType    = "fighting"
     static let fireType     = "fire"
     static let flyingType   = "flying"
     static let ghostType    = "ghost"

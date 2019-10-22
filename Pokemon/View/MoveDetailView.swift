@@ -99,7 +99,7 @@ class MoveDetailView: UIView {
     
     fileprivate let basePowerText: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 40, weight: .regular)
+        label.font = .systemFont(ofSize: 40, weight: .light)
         label.textColor = .titleText
         label.textAlignment = .center
         return label
@@ -121,7 +121,7 @@ class MoveDetailView: UIView {
     
     fileprivate let accuracyText: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 40, weight: .regular)
+        label.font = .systemFont(ofSize: 40, weight: .light)
         label.textColor = .titleText
         label.textAlignment = .center
         return label
@@ -143,7 +143,7 @@ class MoveDetailView: UIView {
     
     fileprivate let ppText: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 40, weight: .regular)
+        label.font = .systemFont(ofSize: 40, weight: .light)
         label.textColor = .titleText
         label.textAlignment = .center
         return label
@@ -175,7 +175,6 @@ class MoveDetailView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupLayout()
     }
     

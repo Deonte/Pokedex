@@ -11,14 +11,16 @@ import Alamofire
 import SwiftyJSON
 import JGProgressHUD
 
+var didGetMoves = false
+
 class MovesController: UITableViewController, UISearchBarDelegate {
     
     //MARK:- Instance Variables
     
     fileprivate let searchController = UISearchController(searchResultsController: nil)
-    fileprivate let randomOffset = Int.random(in: 0 ..< 696)
-    fileprivate let limit = 50
-    fileprivate lazy var randomMoveURL = "https://pokeapi.co/api/v2/move/?offset=\(randomOffset / 2)&limit=\(limit)"
+    fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 696)
+    fileprivate let limit = 30
+    fileprivate lazy var randomMoveURL = "https://pokeapi.co/api/v2/move/?offset=\(randomOffset)&limit=\(limit)"
     
     fileprivate var moves = [Move]()
     fileprivate var urls = [String]()
@@ -29,8 +31,17 @@ class MovesController: UITableViewController, UISearchBarDelegate {
         super.viewDidLoad()
         setupTableView()
         setupSearchController()
-        getMovesData(url: randomMoveURL)
+        checkMoves()
     }
+    
+    fileprivate func checkMoves() {
+         if didGetMoves == false {
+             getMovesData(url: randomMoveURL)
+             didGetMoves = true
+         } else {
+             return
+         }
+     }
     
     //MARK:- Setup Search
     
@@ -124,13 +135,13 @@ class MovesController: UITableViewController, UISearchBarDelegate {
         let effect       = json["effect_entries"][0]["effect"]
         let effectChance = json["effect_chance"]
   
-        moves.append(Move(name: name.string ?? "", type: type.string ?? "", basePower: basePower.int ?? 0, id: id.int ?? 0, accuracy: accuracy.int ?? 0, pp: pp.int ?? 0, effect: effect.string ?? "", effectChance: effectChance.int ?? 0))
+        moves.append(Move(name: name.string?.capitalized.replacingOccurrences(of: "-", with: " ") ?? "", type: type.string ?? "", basePower: basePower.int ?? 0, id: id.int ?? 0, accuracy: accuracy.int ?? 0, pp: pp.int ?? 0, effect: effect.string ?? "", effectChance: effectChance.int ?? 0))
   
     }
     
     fileprivate func getMoveURLS(json : JSON) {
         
-        for i in 0...49 {
+        for i in 0...limit - 1 {
             let result = json["results"][i]["url"]
             urls.append(result.string ?? "")
             getSearchedPokemonData(url: urls[i])
