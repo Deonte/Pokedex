@@ -22,7 +22,7 @@ class PokemonDetailView: UIView {
             }
             
             nameLabel.text = selectedPokemon.name
-           
+            descriptionTextView.text = selectedPokemon.flavorText
             if selectedPokemon.secondaryType == "" {
                 primaryTypeImageView.isHidden = false
                 primaryTypeImageView.image = getLargeTypeImage(type: selectedPokemon.primaryType)
@@ -69,6 +69,17 @@ class PokemonDetailView: UIView {
         return iv
     }()
     
+    fileprivate let descriptionTextView: UITextView = {
+        let tv = UITextView()
+        tv.isEditable = false
+        tv.isScrollEnabled = true
+        tv.textAlignment = .center
+        tv.font = .systemFont(ofSize: 17, weight: .regular)
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    }()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -111,6 +122,12 @@ class PokemonDetailView: UIView {
         addConstraint(NSLayoutConstraint(item: primaryTypeImageView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 40))
         addConstraint(NSLayoutConstraint(item: primaryTypeImageView, attribute: .top, relatedBy: .equal, toItem: nameLabel, attribute: .bottom, multiplier: 1, constant: 11))
        
+        addSubview(descriptionTextView)
+        
+        addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .leading, relatedBy: .equal, toItem: cardView, attribute: .leading, multiplier: 1, constant: 18))
+        addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .trailing, relatedBy: .equal, toItem: cardView, attribute: .trailing, multiplier: 1, constant: -18))
+        addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .top, relatedBy: .equal, toItem: primaryTypeImageView, attribute: .bottom, multiplier: 1, constant: 20))
+        addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .bottom, relatedBy: .equal, toItem: cardView, attribute: .bottom, multiplier: 1, constant: -48))
     
     }
 }

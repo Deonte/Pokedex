@@ -17,10 +17,17 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     
     //MARK:- Instance Variables
     
+//    class ProgressView: UIViewController {
+//        override func viewDidLoad() {
+//            super.viewDidLoad()
+//            view.backgroundColor = .clear
+//        }
+//    }
+    
     fileprivate let pokemonHud = JGProgressHUD(style: .dark)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 914)
-    fileprivate let limit = 100
+    fileprivate let limit = 150
     fileprivate lazy var randomPokemonURL = "https://pokeapi.co/api/v2/pokemon?offset=\(randomOffset)&limit=\(limit)"
     
     fileprivate var pokemon = [Pokemon]()
@@ -31,10 +38,17 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackgroundColor
+     
+//        print("Show registration Page")
+//        let pV = ProgressView()
+//        pV.modalPresentationStyle = .fullScreen
+//        present(pV, animated: true)
+//
+
         setupTableView()
         setupSearchController()
         checkPokemonData()
-        
+
     }
     
     fileprivate func checkPokemonData() {
@@ -112,7 +126,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         
         print("GET POKEMON DATA FUNCTION CALLED")
         pokemonHud.textLabel.text = "Catching Pokemon"
-        pokemonHud.show(in: view)
+        pokemonHud.show(in: navigationController?.view ?? view)
         
         Alamofire.request(url, method: .get ).responseJSON { response in
             if response.result.isSuccess {
@@ -155,16 +169,35 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         let pokemonSecondaryType = json["types"][1]["type"]["name"]
         let pokemonID = json["id"]
         let pokemonSprite = json["sprites"]["front_default"]
-        //let pokemonSpecialMove = json["abilities"][0]["ability"]["name"]
-       
-        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? ""))
+        let speciesURL = json["species"]["url"]
+        let flavorText = updateSpeciesData(url: speciesURL.string!)
         
-        //print(pokemonName.string ?? "")
-     
+        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? "", flavorText: flavorText))
+    }
+    
+    fileprivate func updateSpeciesData(url: String) -> String{
+        var flavorText = ""
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                let pokemonSpecies : JSON = JSON(response.result.value!)
+                let text = pokemonSpecies["flavor_text_entries"][1]["flavor_text"]
+                let name = pokemonSpecies["name"]
+                flavorText = text.string ?? ""
+                print("Name:\(name.string ?? "")\nFlavor Text:\(flavorText)\n")
+            } else {
+                print("Error: \(String(describing: response.result.error))")
+            }
+        }
+        
+        return flavorText
+    }
+    
+    fileprivate func parseSpecies(json: JSON) -> String {
+        let flavorText = json["flavor_text_entries"][1]["flavor_text"]
+        return flavorText.string!
     }
     
     fileprivate func getPokemonURLS(json : JSON) {
-        
         for i in 0...limit - 1{
             let result = json["results"][i]["url"]
             urls.append(result.string ?? "")

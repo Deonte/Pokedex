@@ -20,10 +20,8 @@ class ItemDetailView: UIView {
             DispatchQueue.main.async {
                 self.itemImageView.sd_setImage(with: url, completed: nil)
             }
-            
             let name = selectedItem.name.replacingOccurrences(of: "-", with: " ")
             nameLabel.text = name
-            print(name)
             let description = selectedItem.description
             descriptionTextView.text = createCleanString(description)
             priceLabel.text = "\(selectedItem.price)"

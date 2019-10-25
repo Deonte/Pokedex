@@ -14,7 +14,7 @@ struct Pokemon {
     let sprite: String
     let primaryType: String
     let secondaryType: String
-   
+    let flavorText: String
 }
 
 
