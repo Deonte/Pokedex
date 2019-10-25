@@ -16,18 +16,11 @@ var didYouGetPokemon = false
 class PokemonController: UITableViewController, UISearchBarDelegate {
     
     //MARK:- Instance Variables
-    
-//    class ProgressView: UIViewController {
-//        override func viewDidLoad() {
-//            super.viewDidLoad()
-//            view.backgroundColor = .clear
-//        }
-//    }
-    
+
     fileprivate let pokemonHud = JGProgressHUD(style: .dark)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 914)
-    fileprivate let limit = 150
+    fileprivate let limit = 250
     fileprivate lazy var randomPokemonURL = "https://pokeapi.co/api/v2/pokemon?offset=\(randomOffset)&limit=\(limit)"
     
     fileprivate var pokemon = [Pokemon]()
@@ -38,18 +31,16 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackgroundColor
-     
-//        print("Show registration Page")
-//        let pV = ProgressView()
-//        pV.modalPresentationStyle = .fullScreen
-//        present(pV, animated: true)
-//
 
         setupTableView()
         setupSearchController()
         checkPokemonData()
 
     }
+    
+
+    
+    //MARK:- Helper Functions
     
     fileprivate func checkPokemonData() {
         if didYouGetPokemon == false {
@@ -59,6 +50,17 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
             return
         }
     }
+    
+    fileprivate func addPokemonObjects(_ pokemonName: JSON, _ pokemonID: JSON, _ pokemonSprite: JSON, _ pokemonPrimaryType: JSON, _ pokemonSecondaryType: JSON, _ speciesURL: JSON) {
+         pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? "", flavorText: speciesURL.string ?? "Unknown."))
+     }
+     
+    fileprivate func sortPokemon(pokemon: [Pokemon]) {
+          let sortedPokemon = pokemon.sorted { (id0, id1 ) -> Bool in
+              return id0.id < id1.id
+          }
+          self.pokemon = sortedPokemon
+      }
     
     //MARK:- Setup Search
     
@@ -134,7 +136,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
                 let pokemon : JSON = JSON(response.result.value!)
                 self.getPokemonURLS(json: pokemon)
                 self.pokemonHud.dismiss()
-                
             } else {
                 print("Error: \(String(describing: response.result.error))")
                 self.pokemonHud.textLabel.text = String(describing: response.result.error)
@@ -162,6 +163,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
 
     //MARK: - JSON Parsing
     
+ 
     fileprivate func updateSearchedPokemonData(json : JSON) {
         
         let pokemonName = json["name"]
@@ -170,38 +172,21 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         let pokemonID = json["id"]
         let pokemonSprite = json["sprites"]["front_default"]
         let speciesURL = json["species"]["url"]
-        let flavorText = updateSpeciesData(url: speciesURL.string!)
         
-        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? "", flavorText: flavorText))
-    }
-    
-    fileprivate func updateSpeciesData(url: String) -> String{
-        var flavorText = ""
-        Alamofire.request(url, method: .get ).responseJSON { response in
-            if response.result.isSuccess {
-                let pokemonSpecies : JSON = JSON(response.result.value!)
-                let text = pokemonSpecies["flavor_text_entries"][1]["flavor_text"]
-                let name = pokemonSpecies["name"]
-                flavorText = text.string ?? ""
-                print("Name:\(name.string ?? "")\nFlavor Text:\(flavorText)\n")
-            } else {
-                print("Error: \(String(describing: response.result.error))")
-            }
-        }
+        addPokemonObjects(pokemonName, pokemonID, pokemonSprite, pokemonPrimaryType, pokemonSecondaryType, speciesURL)
+        sortPokemon(pokemon: pokemon)
         
-        return flavorText
-    }
-    
-    fileprivate func parseSpecies(json: JSON) -> String {
-        let flavorText = json["flavor_text_entries"][1]["flavor_text"]
-        return flavorText.string!
+        
     }
     
     fileprivate func getPokemonURLS(json : JSON) {
         for i in 0...limit - 1{
             let result = json["results"][i]["url"]
             urls.append(result.string ?? "")
-            getSearchedPokemonData(url: urls[i])
+        }
+        
+        urls.forEach { (url) in
+            getSearchedPokemonData(url: url)
         }
     }
     
@@ -209,7 +194,8 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
 
 
 
-
-
-
+//
+//let sortedPokemon = pokemon.sorted { (id0, id1 ) -> Bool in
+//                       return id0.id < id1.id
+//                   }
 

@@ -7,12 +7,32 @@
 //
 
 import UIKit
+import SwiftyJSON
+import Alamofire
 
 class PokemonDetailView: UIView {
     
+    //MARK:- GET NETWORKING CODE OUT OF VIEW CODE
+    func updateSpeciesData(url: String) {
+        var flavorText = ""
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                let pokemonSpecies : JSON = JSON(response.result.value!)
+                let text = pokemonSpecies["flavor_text_entries"][1]["flavor_text"]
+                flavorText = text.string ?? ""
+              
+                self.descriptionTextView.text = flavorText.replacingOccurrences(of: "\n", with: " ")
+                
+            } else {
+                print("Error: \(String(describing: response.result.error))")
+            }
+        }
+        
+    }
     
     var selectedPokemon: Pokemon! {
         didSet {
+            updateSpeciesData(url: selectedPokemon.flavorText)
             
             let sprite = selectedPokemon.sprite
             guard let url = URL(string: sprite) else { return }
@@ -22,7 +42,6 @@ class PokemonDetailView: UIView {
             }
             
             nameLabel.text = selectedPokemon.name
-            descriptionTextView.text = selectedPokemon.flavorText
             if selectedPokemon.secondaryType == "" {
                 primaryTypeImageView.isHidden = false
                 primaryTypeImageView.image = getLargeTypeImage(type: selectedPokemon.primaryType)
@@ -69,11 +88,12 @@ class PokemonDetailView: UIView {
         return iv
     }()
     
-    fileprivate let descriptionTextView: UITextView = {
+    let descriptionTextView: UITextView = {
         let tv = UITextView()
         tv.isEditable = false
         tv.isScrollEnabled = true
-        tv.textAlignment = .center
+        tv.textAlignment = .justified
+        //tv.backgroundColor = .blue
         tv.font = .systemFont(ofSize: 17, weight: .regular)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
@@ -121,13 +141,13 @@ class PokemonDetailView: UIView {
         addConstraint(NSLayoutConstraint(item: primaryTypeImageView, attribute: .centerX, relatedBy: .equal, toItem: cardView, attribute: .centerX, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: primaryTypeImageView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 40))
         addConstraint(NSLayoutConstraint(item: primaryTypeImageView, attribute: .top, relatedBy: .equal, toItem: nameLabel, attribute: .bottom, multiplier: 1, constant: 11))
-       
+        
         addSubview(descriptionTextView)
         
         addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .leading, relatedBy: .equal, toItem: cardView, attribute: .leading, multiplier: 1, constant: 18))
         addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .trailing, relatedBy: .equal, toItem: cardView, attribute: .trailing, multiplier: 1, constant: -18))
         addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .top, relatedBy: .equal, toItem: primaryTypeImageView, attribute: .bottom, multiplier: 1, constant: 20))
         addConstraint(NSLayoutConstraint(item: descriptionTextView, attribute: .bottom, relatedBy: .equal, toItem: cardView, attribute: .bottom, multiplier: 1, constant: -48))
-    
+        
     }
 }

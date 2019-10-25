@@ -7,23 +7,24 @@
 //
 
 import UIKit
-
+import Alamofire
+import SwiftyJSON
 
 class PokemonDetailController: UIViewController {
    
     var selectedPokemon: Pokemon?
-    
     var pdView = PokemonDetailView()
     
     override func loadView() {
         super.loadView()
         view = pdView
         pdView.selectedPokemon = selectedPokemon
+     
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -32,4 +33,6 @@ class PokemonDetailController: UIViewController {
         
         print("Dissapearing")
     }
+    
+   
 }

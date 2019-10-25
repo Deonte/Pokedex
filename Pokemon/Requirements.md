@@ -50,3 +50,10 @@
 ## ItemsDetailView
 
 1. This view shows a larger ItemSprite, ItemName, ItemPrice, and Item Description
+
+
+
+### Create a database that stores all the pokedata at once. And saves them persistently using CoreData or Realm. To make the loading of data local rather than relying to heavily on the internet. 
+
+
+### Or Create a favorites tab that stores data locally.
