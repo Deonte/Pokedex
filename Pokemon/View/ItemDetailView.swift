@@ -38,6 +38,7 @@ class ItemDetailView: UIView {
          newString = newString.description.replacingOccurrences(of: "Used+outside+of+battle\n:+++", with: "")
         newString = newString.description.replacingOccurrences(of: "Used\n:+++", with: "")
         newString = newString.replacingOccurrences(of: "\n++++", with: " ")
+        newString = newString.replacingOccurrences(of: "\n", with: " ")
         newString = newString.description.replacingOccurrences(of: "+", with: " ")
         return newString
     }
@@ -88,8 +89,8 @@ class ItemDetailView: UIView {
         let tv = UITextView()
         tv.isEditable = false
         tv.isScrollEnabled = true
-        tv.textAlignment = .center
-        tv.font = .systemFont(ofSize: 17, weight: .regular)
+        tv.textAlignment = .justified
+        tv.font = .systemFont(ofSize: 19, weight: .regular)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()

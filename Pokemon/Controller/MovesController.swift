@@ -19,7 +19,7 @@ class MovesController: UITableViewController, UISearchBarDelegate {
     
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 696)
-    fileprivate let limit = 30
+    fileprivate let limit = 20
     fileprivate lazy var randomMoveURL = "https://pokeapi.co/api/v2/move/?offset=\(randomOffset)&limit=\(limit)"
     
     fileprivate var moves = [Move]()

@@ -19,7 +19,7 @@ class ItemsController: UITableViewController, UISearchBarDelegate {
     
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 914)
-    fileprivate let limit = 180
+    fileprivate let limit = 20
     fileprivate lazy var randomItemURL = "https://pokeapi.co/api/v2/item?offset=\(randomOffset)&limit=\(limit)"
     
     fileprivate var items = [Item]()

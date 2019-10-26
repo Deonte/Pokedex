@@ -10,13 +10,25 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import JGProgressHUD
+import SDWebImage
 
 var didYouGetPokemon = false
 
-class PokemonController: UITableViewController, UISearchBarDelegate {
+class PokemonController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     
     //MARK:- Instance Variables
-
+//    var searchFooterBottomConstraint: CGFloat = 0
+//
+//    lazy var searchFooter: SearchFooter = {
+//        let sf = SearchFooter()
+//        sf.translatesAutoresizingMaskIntoConstraints = false
+//        sf.addConstraint(NSLayoutConstraint(item: sf, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: searchFooterBottomConstraint))
+//        sf.addConstraint(NSLayoutConstraint(item: sf, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0))
+//        sf.addConstraint(NSLayoutConstraint(item: sf, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0))
+//        sf.addConstraint(NSLayoutConstraint(item: sf, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 44))
+//        return sf
+//    }()
+//
     fileprivate let pokemonHud = JGProgressHUD(style: .dark)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 914)
@@ -25,17 +37,18 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     
     fileprivate var pokemon = [Pokemon]()
     fileprivate var urls = [String]()
-    fileprivate var filteredPokemon = [Pokemon]()
+    fileprivate var filteredPokemon: [Pokemon] = []
     
     //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackgroundColor
-
+        //view.addSubview(searchFooter)
         setupTableView()
         setupSearchController()
         checkPokemonData()
-
+        //setupNotifications()
+        
     }
     
 
@@ -62,13 +75,51 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
           self.pokemon = sortedPokemon
       }
     
+//    fileprivate func setupNotifications() {
+//        let notificationCenter = NotificationCenter.default
+//        notificationCenter.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { (notification) in
+//                                        self.handleKeyboard(notification: notification)
+//
+//        }
+//        notificationCenter.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (notification) in
+//                                        self.handleKeyboard(notification: notification)
+//        }
+//    }
+    
+//    func handleKeyboard(notification: Notification) {
+//        // 1
+//        guard notification.name == UIResponder.keyboardWillChangeFrameNotification else {
+//            searchFooterBottomConstraint = 0
+//            view.layoutIfNeeded()
+//            return
+//        }
+//
+//        guard
+//            let info = notification.userInfo,
+//            let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+//            else {
+//                return
+//        }
+//
+//        // 2
+//        let keyboardHeight = keyboardFrame.cgRectValue.size.height
+//        UIView.animate(withDuration: 0.1, animations: { () -> Void in
+//            self.searchFooterBottomConstraint = keyboardHeight
+//            self.view.layoutIfNeeded()
+//        })
+//    }
+    
     //MARK:- Setup Search
     
     fileprivate func setupSearchController() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.delegate = self
+        //searchController.searchBar.delegate = self
+        
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search Pokemon"
+        definesPresentationContext = true
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -78,18 +129,39 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         
         pokemon.forEach { (pokemon) in
             
-            if pokemon.name.contains(searchText.lowercased()) == true {
-                print("Its true!")
-                filteredPokemon.append(pokemon)
-                filteredPokemon.forEach { (pokemon) in
-                    print(pokemon.name)
-                }
-            } else if searchText.isEmpty || searchText == "" {
-                filteredPokemon.removeAll()
-                print(filteredPokemon.isEmpty)
-            }
+//            if pokemon.name.contains(searchText.lowercased()) == true {
+//                print("Its true!")
+//                filteredPokemon.append(pokemon)
+//                filteredPokemon.forEach { (pokemon) in
+//                    print(pokemon.name)
+//                }
+//            } else if searchText.isEmpty || searchText == "" {
+//                filteredPokemon.removeAll()
+//                print(filteredPokemon.isEmpty)
+//            }
         }
         
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+    }
+    
+    func filterContentForSearchText(_ searchText: String) {
+        
+        filteredPokemon = pokemon.filter { (pokemon) -> Bool in
+            return pokemon.name.lowercased().contains(searchText.lowercased())
+        }
+        tableView.reloadData()
+    }
+    
+    var isSearchBarEmpty: Bool {
+      return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    var isFiltering: Bool {
+      return searchController.isActive && !isSearchBarEmpty
     }
     
     //MARK:- Setup TableView
@@ -100,15 +172,30 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+           // searchFooter.setIsFilteringToShow(filteredItemCount: filteredPokemon.count, of: pokemon.count)
+            return filteredPokemon.count
+        }
+        
         return pokemon.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: pokemonCellID, for: indexPath) as! PokemonCell
         
-        let pokemon = self.pokemon[indexPath.row]
+//        let pokemon = self.pokemon[indexPath.row]
+//        cell.pokemon = pokemon
+        
+        let pokemon: Pokemon
+        
+        if isFiltering {
+            pokemon = filteredPokemon[indexPath.row]
+        } else {
+            pokemon = self.pokemon[indexPath.row]
+        }
+        
         cell.pokemon = pokemon
-    
+  
         return cell
     }
     
@@ -173,6 +260,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate {
         let pokemonSprite = json["sprites"]["front_default"]
         let speciesURL = json["species"]["url"]
         
+
         addPokemonObjects(pokemonName, pokemonID, pokemonSprite, pokemonPrimaryType, pokemonSecondaryType, speciesURL)
         sortPokemon(pokemon: pokemon)
         

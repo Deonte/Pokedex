@@ -99,6 +99,19 @@ class PokemonDetailView: UIView {
         return tv
     }()
     
+    fileprivate let evolutionsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .red
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    fileprivate let movesButton: UIButton = {
+          let button = UIButton(type: .system)
+          button.backgroundColor = .blue
+          button.translatesAutoresizingMaskIntoConstraints = false
+          return button
+      }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -120,7 +133,7 @@ class PokemonDetailView: UIView {
         addConstraint(NSLayoutConstraint(item: cardView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: cardView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: cardView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: cardView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.65, constant: 0))
+        addConstraint(NSLayoutConstraint(item: cardView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.85, constant: 0))
         
         addSubview(spriteImageView)
         
