@@ -21,7 +21,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     
     var keyboardHeightVar: CGFloat! {
         didSet {
-            searchFooter.frame = CGRect(x: 0, y: searchFooterBottomConstraint! - self.keyboardHeightVar, width: 414, height: 44)
+            searchFooter.frame = CGRect(x: 0, y: (searchFooterBottomConstraint ?? 0) - self.keyboardHeightVar, width: 414, height: 44)
         }
     }
   
@@ -35,7 +35,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     fileprivate let pokemonHud = JGProgressHUD(style: .dark)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 914)
-    fileprivate let limit = 250
+    fileprivate let limit = 750
     fileprivate lazy var randomPokemonURL = "https://pokeapi.co/api/v2/pokemon?offset=\(randomOffset)&limit=\(limit)"
     
     fileprivate var pokemon = [Pokemon]()
@@ -65,7 +65,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     }
 
     fileprivate func setupFooter() {
-        navigationController!.view.addSubview(searchFooter)
+        navigationController?.view.addSubview(searchFooter)
     }
     
     //MARK:- Helper Functions
@@ -194,8 +194,13 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = PokemonDetailController()
-        vc.selectedPokemon = pokemon[indexPath.row]
-        navigationController?.present(vc, animated: true, completion: nil)        
+        if isFiltering {
+            vc.selectedPokemon = filteredPokemon[indexPath.row]
+        } else {
+            vc.selectedPokemon = pokemon[indexPath.row]
+        }
+        
+        navigationController?.present(vc, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -210,18 +215,22 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         pokemonHud.textLabel.text = "Catching Pokemon"
         pokemonHud.show(in: navigationController?.view ?? view)
         
-        Alamofire.request(url, method: .get ).responseJSON { response in
-            if response.result.isSuccess {
-                
-                let pokemon : JSON = JSON(response.result.value!)
-                self.getPokemonURLS(json: pokemon)
-                self.pokemonHud.dismiss()
-            } else {
-                print("Error: \(String(describing: response.result.error))")
-                self.pokemonHud.textLabel.text = String(describing: response.result.error)
-                self.pokemonHud.dismiss(afterDelay: 3)
+        DispatchQueue.main.async {
+            Alamofire.request(url, method: .get ).responseJSON { response in
+                if response.result.isSuccess {
+                    
+                    let pokemon : JSON = JSON(response.result.value!)
+                    self.getPokemonURLS(json: pokemon)
+                    self.pokemonHud.dismiss(afterDelay: 3)
+                    
+                } else {
+                    print("Error: \(String(describing: response.result.error))")
+                    self.pokemonHud.textLabel.text = String(describing: response.result.error)
+                    self.pokemonHud.dismiss(afterDelay: 3)
+                }
             }
         }
+        
         
     }
     
