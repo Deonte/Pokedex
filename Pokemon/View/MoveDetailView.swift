@@ -16,7 +16,8 @@ class MoveDetailView: UIView {
             nameLabel.text = selectedMove.name.capitalized
             typeImageView.image = getTypeImage(type: selectedMove.type)
             primaryTypeImageView.image = getLargeTypeImage(type: selectedMove.type)
-            descriptionTextView.text = replace(if: selectedMove.effect, contains: "$effect_chance", with: selectedMove.effectChance)
+            let text = replace(if: selectedMove.effect, contains: "$effect_chance", with: selectedMove.effectChance)
+            descriptionTextView.text = text.replacingOccurrences(of: "\n", with: "")
             basePowerText.text = "\(selectedMove.basePower)"
             accuracyText.text = "\(selectedMove.accuracy)%"
             ppText.text = "\(selectedMove.pp)"
@@ -76,7 +77,7 @@ class MoveDetailView: UIView {
         let tv = UITextView()
         tv.isEditable = false
         tv.isScrollEnabled = true
-        tv.textAlignment = .center
+        tv.textAlignment = .justified
         tv.font = .systemFont(ofSize: 17, weight: .regular)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv

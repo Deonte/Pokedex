@@ -12,16 +12,18 @@ import SwiftyJSON
 import JGProgressHUD
 import SDWebImage
 
-var didYouGetPokemon = false
+var didRetrievePokemon = false
+var screenWidth = UIScreen.main.bounds.width
 
 class PokemonController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
     
     //MARK:- Instance Variables
-    lazy var searchFooterBottomConstraint = tabBarController?.tabBar.frame.minY//tabBarController?.tabBar.frame.origin.y ?? 0
+    lazy var searchFooterBottomConstraint = tabBarController?.tabBar.frame.minY
+    
     
     var keyboardHeightVar: CGFloat! {
         didSet {
-            searchFooter.frame = CGRect(x: 0, y: (searchFooterBottomConstraint ?? 0) - self.keyboardHeightVar, width: 414, height: 44)
+            searchFooter.frame = CGRect(x: 0, y: (searchFooterBottomConstraint ?? 0) - self.keyboardHeightVar, width: screenWidth, height: 44)
         }
     }
   
@@ -43,6 +45,8 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     fileprivate var filteredPokemon: [Pokemon] = []
     
     //MARK:- View Life Cycle
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackgroundColor
@@ -61,7 +65,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     override func updateViewConstraints() {
         super.updateViewConstraints()
           keyboardHeightVar = 0
-          searchFooter.frame = CGRect(x: 0, y: searchFooterBottomConstraint! - self.keyboardHeightVar, width: 414, height: 44)
+          searchFooter.frame = CGRect(x: 0, y: searchFooterBottomConstraint! - self.keyboardHeightVar, width: screenWidth, height: 44)
     }
 
     fileprivate func setupFooter() {
@@ -71,25 +75,25 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     //MARK:- Helper Functions
     
     fileprivate func checkPokemonData() {
-        if didYouGetPokemon == false {
+        if didRetrievePokemon == false {
             getPokemonData(url: randomPokemonURL)
-            didYouGetPokemon = true
+            didRetrievePokemon = true
         } else {
             return
         }
     }
     
+    fileprivate func sortPokemon(pokemon: [Pokemon]) {
+        let sortedPokemon = pokemon.sorted { (id0, id1 ) -> Bool in
+            return id0.id < id1.id
+        }
+        self.pokemon = sortedPokemon
+    }
+    
     fileprivate func addPokemonObjects(_ pokemonName: JSON, _ pokemonID: JSON, _ pokemonSprite: JSON, _ pokemonPrimaryType: JSON, _ pokemonSecondaryType: JSON, _ speciesURL: JSON) {
          pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? "", flavorText: speciesURL.string ?? "Unknown."))
      }
-     
-    fileprivate func sortPokemon(pokemon: [Pokemon]) {
-          let sortedPokemon = pokemon.sorted { (id0, id1 ) -> Bool in
-              return id0.id < id1.id
-          }
-          self.pokemon = sortedPokemon
-      }
-    
+
     fileprivate func setupNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { (notification) in
@@ -129,14 +133,9 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.obscuresBackgroundDuringPresentation = false
-     
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search Pokemon"
         definesPresentationContext = true
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -188,7 +187,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         }
         
         cell.pokemon = pokemon
-  
+        
         return cell
     }
     
@@ -218,14 +217,13 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         DispatchQueue.main.async {
             Alamofire.request(url, method: .get ).responseJSON { response in
                 if response.result.isSuccess {
-                    
+
                     let pokemon : JSON = JSON(response.result.value!)
                     self.getPokemonURLS(json: pokemon)
-                    self.pokemonHud.dismiss(afterDelay: 3)
+                    self.pokemonHud.dismiss()
                     
                 } else {
-                    print("Error: \(String(describing: response.result.error))")
-                    self.pokemonHud.textLabel.text = String(describing: response.result.error)
+                    self.pokemonHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
                     self.pokemonHud.dismiss(afterDelay: 3)
                 }
             }
@@ -234,17 +232,19 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         
     }
     
-    fileprivate func getSearchedPokemonData(url: String) {
+    fileprivate func getPokemonDataFrom(url: String) {
         
-        Alamofire.request(url, method: .get ).responseJSON { response in
-            if response.result.isSuccess {
-                
-                let pokemon : JSON = JSON(response.result.value!)
-                self.updateSearchedPokemonData(json: pokemon)
-                self.tableView.reloadData()
-                
-            } else {
-                print("Error: \(String(describing: response.result.error))")
+        DispatchQueue.main.async {
+            Alamofire.request(url, method: .get ).responseJSON { response in
+                if response.result.isSuccess {
+                    
+                    let pokemon : JSON = JSON(response.result.value!)
+                    self.updateSearchedPokemonData(json: pokemon)
+                    self.tableView.reloadData()
+                    
+                } else {
+                    print("Error: \(String(describing: response.result.error))")
+                }
             }
         }
         
@@ -276,7 +276,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         }
         
         urls.forEach { (url) in
-            getSearchedPokemonData(url: url)
+            getPokemonDataFrom(url: url)
         }
     }
     
