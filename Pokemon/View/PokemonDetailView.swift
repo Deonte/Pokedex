@@ -15,12 +15,24 @@ class PokemonDetailView: UIView {
     //MARK:- GET NETWORKING CODE OUT OF VIEW CODE
     func updateSpeciesData(url: String) {
         var flavorText = ""
+        print(url)
         Alamofire.request(url, method: .get ).responseJSON { response in
             if response.result.isSuccess {
                 let pokemonSpecies : JSON = JSON(response.result.value!)
-                let text = pokemonSpecies["flavor_text_entries"][1]["flavor_text"]
-                flavorText = text.string ?? ""
-              
+                let flavorTextEntry1 = pokemonSpecies["flavor_text_entries"][1]["flavor_text"]
+                let flavorTExtEntry1Language = pokemonSpecies["flavor_text_entries"][1]["language"]["name"]
+                let flavorTextEntry2 = pokemonSpecies["flavor_text_entries"][2]["flavor_text"]
+                //let flavorTExtEntry2Language = pokemonSpecies["flavor_text_entries"][2]["language"]["name"]
+                
+                guard let languageOne = flavorTExtEntry1Language.string else { return }
+                
+                if languageOne == "en" {
+                    flavorText = flavorTextEntry1.string ?? ""
+                } else {
+                    flavorText = flavorTextEntry2.string ?? ""
+                }
+                
+    
                 self.descriptionTextView.text = flavorText.replacingOccurrences(of: "\n", with: " ")
                 
             } else {
@@ -36,7 +48,7 @@ class PokemonDetailView: UIView {
             
             let sprite = selectedPokemon.sprite
             guard let url = URL(string: sprite) else { return }
-            
+          
             DispatchQueue.main.async {
                 self.spriteImageView.sd_setImage(with: url, completed: nil)
             }
