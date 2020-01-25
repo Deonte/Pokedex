@@ -22,15 +22,15 @@ class PokemonCell: UITableViewCell {
             
             let sprite = pokemon.sprite
             guard let url = URL(string: sprite) else { return }
-            
+
             DispatchQueue.main.async {
                 self.spriteImageView.sd_setImage(with: url, completed: nil)
             }
-            
+           
             pokemonNameLabel.text = pokemon.name
             pokedexNumberLabel.text = pokemon.id.format(pattern: "#%03d")
           
-            if pokemon.secondaryType == "" {
+            if pokemon.secondaryType.isEmpty {
                 primaryTypeImageView.isHidden = false
                 primaryTypeImageView.image = getTypeImage(type: pokemon.primaryType )
             } else {

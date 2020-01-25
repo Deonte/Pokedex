@@ -27,7 +27,6 @@
 		04983B01235B93D800A300EA /* MoveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04983AFF235B93D800A300EA /* MoveCell.xib */; };
 		04983B07235BAA3800A300EA /* MoveDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04983B06235BAA3800A300EA /* MoveDetailController.swift */; };
 		04983B09235BAB9500A300EA /* MoveDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04983B08235BAB9500A300EA /* MoveDetailView.swift */; };
-		04987C382356881C002E2706 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04987C372356881C002E2706 /* .gitignore */; };
 		04B509B52353B35700D20D96 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B42353B35700D20D96 /* MainTabBarController.swift */; };
 		04B509B72353B65700D20D96 /* MovesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B62353B65700D20D96 /* MovesController.swift */; };
 		04B509B92353B67A00D20D96 /* ItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B509B82353B67A00D20D96 /* ItemsController.swift */; };
@@ -64,7 +63,6 @@
 		04983B06235BAA3800A300EA /* MoveDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveDetailController.swift; sourceTree = "<group>"; };
 		04983B08235BAB9500A300EA /* MoveDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveDetailView.swift; sourceTree = "<group>"; };
 		04987C3623564523002E2706 /* Requirements.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Requirements.md; sourceTree = "<group>"; };
-		04987C372356881C002E2706 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04B509B42353B35700D20D96 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		04B509B62353B65700D20D96 /* MovesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesController.swift; sourceTree = "<group>"; };
 		04B509B82353B67A00D20D96 /* ItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsController.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 		04F11BDE234F73D300734B62 /* Pokemon */ = {
 			isa = PBXGroup;
 			children = (
-				04987C372356881C002E2706 /* .gitignore */,
 				04987C3623564523002E2706 /* Requirements.md */,
 				043422562353C6AD00BAF4A2 /* Constants */,
 				04F11BF3234F7EC500734B62 /* Model */,
@@ -275,7 +272,6 @@
 				04983B01235B93D800A300EA /* MoveCell.xib in Resources */,
 				0456C892235F7E7000B3EA11 /* ItemCell.xib in Resources */,
 				045CB2A82357AEB500EBC6BD /* PokemonCell.xib in Resources */,
-				04987C382356881C002E2706 /* .gitignore in Resources */,
 				04F11BE9234F73D500734B62 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

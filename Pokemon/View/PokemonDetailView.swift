@@ -15,14 +15,13 @@ class PokemonDetailView: UIView {
     //MARK:- GET NETWORKING CODE OUT OF VIEW CODE
     func updateSpeciesData(url: String) {
         var flavorText = ""
-        print(url)
+      
         Alamofire.request(url, method: .get ).responseJSON { response in
             if response.result.isSuccess {
                 let pokemonSpecies : JSON = JSON(response.result.value!)
                 let flavorTextEntry1 = pokemonSpecies["flavor_text_entries"][1]["flavor_text"]
                 let flavorTExtEntry1Language = pokemonSpecies["flavor_text_entries"][1]["language"]["name"]
                 let flavorTextEntry2 = pokemonSpecies["flavor_text_entries"][2]["flavor_text"]
-                //let flavorTExtEntry2Language = pokemonSpecies["flavor_text_entries"][2]["language"]["name"]
                 
                 guard let languageOne = flavorTExtEntry1Language.string else { return }
                 
@@ -32,7 +31,6 @@ class PokemonDetailView: UIView {
                     flavorText = flavorTextEntry2.string ?? ""
                 }
                 
-    
                 self.descriptionTextView.text = flavorText.replacingOccurrences(of: "\n", with: " ")
                 
             } else {
@@ -60,9 +58,7 @@ class PokemonDetailView: UIView {
                 backgroundColor = getTypeColors(type: selectedPokemon.primaryType)
             } else {
                 primaryTypeImageView.isHidden = false
-                //secondaryTypeImageView.isHidden = false
                 primaryTypeImageView.image = getLargeTypeImage(type: selectedPokemon.secondaryType )
-                //secondaryTypeImageView.image = getTypeImage(type: pokemon.primaryType )
                 backgroundColor = getTypeColors(type: selectedPokemon.secondaryType)
             }
             
@@ -105,7 +101,6 @@ class PokemonDetailView: UIView {
         tv.isEditable = false
         tv.isScrollEnabled = true
         tv.textAlignment = .justified
-        //tv.backgroundColor = .blue
         tv.font = .systemFont(ofSize: 17, weight: .regular)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv

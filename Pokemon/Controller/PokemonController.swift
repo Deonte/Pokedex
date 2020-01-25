@@ -20,7 +20,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     //MARK:- Instance Variables
     lazy var searchFooterBottomConstraint = tabBarController?.tabBar.frame.minY
     
-    
     var keyboardHeightVar: CGFloat! {
         didSet {
             searchFooter.frame = CGRect(x: 0, y: (searchFooterBottomConstraint ?? 0) - self.keyboardHeightVar, width: screenWidth, height: 44)
@@ -33,7 +32,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         return view
     }()
     
-
     fileprivate let pokemonHud = JGProgressHUD(style: .dark)
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate let randomOffset = 0 //Int.random(in: 0 ..< 914)
@@ -45,7 +43,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
     fileprivate var filteredPokemon: [Pokemon] = []
     
     //MARK:- View Life Cycle
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,9 +87,6 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         self.pokemon = sortedPokemon
     }
     
-    fileprivate func addPokemonObjects(_ pokemonName: JSON, _ pokemonID: JSON, _ pokemonSprite: JSON, _ pokemonPrimaryType: JSON, _ pokemonSecondaryType: JSON, _ speciesURL: JSON) {
-         pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "", id: pokemonID.int ?? 0, sprite: pokemonSprite.string ?? "", primaryType: pokemonPrimaryType.string ?? "", secondaryType: pokemonSecondaryType.string ?? "", flavorText: speciesURL.string ?? "Unknown."))
-     }
 
     fileprivate func setupNotifications() {
         let notificationCenter = NotificationCenter.default
@@ -121,7 +115,7 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         let keyboardHeight = keyboardFrame.cgRectValue.size.height
         UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.keyboardHeightVar = keyboardHeight
-            self.searchFooter.frame = CGRect(x: 0, y: originYval - 44/*self.searchFooterBottomConstraint! - self.keyboardHeightVar*/, width: 414, height: 44)
+            self.searchFooter.frame = CGRect(x: 0, y: originYval - 44, width: 414, height: 44)
             
             self.view.layoutIfNeeded()
         })
@@ -214,45 +208,48 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         pokemonHud.textLabel.text = "Catching Pokemon"
         pokemonHud.show(in: navigationController?.view ?? view)
         
-        DispatchQueue.main.async {
-            Alamofire.request(url, method: .get ).responseJSON { response in
-                if response.result.isSuccess {
-
-                    let pokemon : JSON = JSON(response.result.value!)
-                    self.getPokemonURLS(json: pokemon)
-                    self.pokemonHud.dismiss()
-                    
-                } else {
-                    self.pokemonHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
-                    self.pokemonHud.dismiss(afterDelay: 3)
-                }
+        
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                
+                let pokemon : JSON = JSON(response.result.value!)
+                self.getPokemonURLS(json: pokemon)
+                self.pokemonHud.dismiss()
+                
+            } else {
+                self.pokemonHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
+                self.pokemonHud.dismiss(afterDelay: 3)
             }
         }
-        
         
     }
     
     fileprivate func getPokemonDataFrom(url: String) {
         
-        DispatchQueue.main.async {
-            Alamofire.request(url, method: .get ).responseJSON { response in
-                if response.result.isSuccess {
-                    
-                    let pokemon : JSON = JSON(response.result.value!)
-                    self.updateSearchedPokemonData(json: pokemon)
-                    self.tableView.reloadData()
-                    
-                } else {
-                    print("Error: \(String(describing: response.result.error))")
-                }
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                
+                let pokemon : JSON = JSON(response.result.value!)
+                self.updateSearchedPokemonData(json: pokemon)
+                self.tableView.reloadData()
+                
+            } else {
+                print("Error: \(String(describing: response.result.error))")
             }
         }
         
     }
-
-    //MARK: - JSON Parsing
     
- 
+    //MARK: - JSON Parsing
+    fileprivate func addPokemonObjects(_ pokemonName: JSON, _ pokemonID: JSON, _ pokemonSprite: JSON, _ pokemonPrimaryType: JSON, _ pokemonSecondaryType: JSON, _ speciesURL: JSON) {
+        pokemon.append(Pokemon(name: pokemonName.string?.capitalized ?? "",
+                               id: pokemonID.int ?? 0,
+                               sprite: pokemonSprite.string ?? "",
+                               primaryType: pokemonPrimaryType.string ?? "",
+                               secondaryType: pokemonSecondaryType.string ?? "",
+                               flavorText: speciesURL.string ?? "Unknown."))
+    }
+    
     fileprivate func updateSearchedPokemonData(json : JSON) {
         
         let pokemonName = json["name"]
@@ -263,10 +260,9 @@ class PokemonController: UITableViewController, UISearchBarDelegate, UISearchRes
         let speciesURL = json["species"]["url"]
         
 
-        addPokemonObjects(pokemonName, pokemonID, pokemonSprite, pokemonPrimaryType, pokemonSecondaryType, speciesURL)
-        sortPokemon(pokemon: pokemon)
-        
-        
+        self.addPokemonObjects(pokemonName, pokemonID, pokemonSprite, pokemonPrimaryType, pokemonSecondaryType, speciesURL)
+        self.sortPokemon(pokemon: self.pokemon)
+    
     }
     
     fileprivate func getPokemonURLS(json : JSON) {

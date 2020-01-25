@@ -197,38 +197,33 @@ class MovesController: UITableViewController, UISearchBarDelegate, UISearchResul
         moveHud.textLabel.text = "Finding Moves"
         moveHud.show(in: navigationController?.view ?? view)
         
-        DispatchQueue.main.async {
-            Alamofire.request(url, method: .get ).responseJSON { response in
-                if response.result.isSuccess {
-                    
-                    let allMoves: JSON = JSON(response.result.value!)
-                    self.getMoveURLS(json: allMoves)
-                    self.moveHud.dismiss()
-                } else {
-                    self.moveHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
-                    self.moveHud.dismiss(afterDelay: 3)
-                }
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                
+                let allMoves: JSON = JSON(response.result.value!)
+                self.getMoveURLS(json: allMoves)
+                self.moveHud.dismiss()
+            } else {
+                self.moveHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
+                self.moveHud.dismiss(afterDelay: 3)
             }
         }
         
     }
     
     fileprivate func getMoveDataFrom(url: String) {
-        DispatchQueue.main.async {
-            Alamofire.request(url, method: .get ).responseJSON { response in
-                if response.result.isSuccess {
-                    
-                    let moves: JSON = JSON(response.result.value!)
-                    self.updateMovesList(json: moves)
-                    self.tableView.reloadData()
-
-                } else {
-                    print("Error: \(String(describing: response.result.error))")
-                }
+        
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                
+                let moves: JSON = JSON(response.result.value!)
+                self.updateMovesList(json: moves)
+                self.tableView.reloadData()
+                
+            } else {
+                print("Error: \(String(describing: response.result.error))")
             }
         }
-        
-        
     }
  
     //MARK:- JSON Parsing
@@ -243,8 +238,10 @@ class MovesController: UITableViewController, UISearchBarDelegate, UISearchResul
         let pp           = json["pp"]
         let effect       = json["effect_entries"][0]["effect"]
         let effectChance = json["effect_chance"]
-  
-        moves.append(Move(name: name.string?.capitalized.replacingOccurrences(of: "-", with: " ") ?? "", type: type.string ?? "", basePower: basePower.int ?? 0, id: id.int ?? 0, accuracy: accuracy.int ?? 0, pp: pp.int ?? 0, effect: effect.string ?? "", effectChance: effectChance.int ?? 0))
+        
+        DispatchQueue.main.async {
+            self.moves.append(Move(name: name.string?.capitalized.replacingOccurrences(of: "-", with: " ") ?? "", type: type.string ?? "", basePower: basePower.int ?? 0, id: id.int ?? 0, accuracy: accuracy.int ?? 0, pp: pp.int ?? 0, effect: effect.string ?? "", effectChance: effectChance.int ?? 0))
+        }
   
     }
     

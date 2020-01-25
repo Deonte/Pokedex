@@ -102,7 +102,7 @@ class ItemsController: UITableViewController, UISearchBarDelegate, UISearchResul
          let keyboardHeight = keyboardFrame.cgRectValue.size.height
          UIView.animate(withDuration: 0.1, animations: { () -> Void in
              self.keyboardHeightVar = keyboardHeight
-             self.searchFooter.frame = CGRect(x: 0, y: originYval - 44/*self.searchFooterBottomConstraint! - self.keyboardHeightVar*/, width: 414, height: 44)
+             self.searchFooter.frame = CGRect(x: 0, y: originYval - 44, width: 414, height: 44)
              
              self.view.layoutIfNeeded()
          })
@@ -194,34 +194,30 @@ class ItemsController: UITableViewController, UISearchBarDelegate, UISearchResul
         
         itemHud.textLabel.text = "Finding Items"
         itemHud.show(in: navigationController?.view ?? view)
-        
-        DispatchQueue.main.async {
-            Alamofire.request(url, method: .get ).responseJSON { response in
-                if response.result.isSuccess {
-                    
-                    let item : JSON = JSON(response.result.value!)
-                    self.getItemURLS(json: item)
-                    self.itemHud.dismiss()
-                    
-                } else {
-                    self.itemHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
-                    self.itemHud.dismiss(afterDelay: 3)
-                }
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                
+                let item : JSON = JSON(response.result.value!)
+                self.getItemURLS(json: item)
+                self.itemHud.dismiss()
+                
+            } else {
+                self.itemHud.textLabel.text = String(describing: response.result.error?.localizedDescription)
+                self.itemHud.dismiss(afterDelay: 3)
             }
         }
     }
     
     fileprivate func getItemsFromArrayOf(url: String) {
-        DispatchQueue.main.async {
-            Alamofire.request(url, method: .get ).responseJSON { response in
-                if response.result.isSuccess {
-                    
-                    let item : JSON = JSON(response.result.value!)
-                    self.updateSearchedItemData(json: item)
-                    self.tableView.reloadData()
-                } else {
-                    print("Error: \(String(describing: response.result.error))")
-                }
+        
+        Alamofire.request(url, method: .get ).responseJSON { response in
+            if response.result.isSuccess {
+                
+                let item : JSON = JSON(response.result.value!)
+                self.updateSearchedItemData(json: item)
+                self.tableView.reloadData()
+            } else {
+                print("Error: \(String(describing: response.result.error))")
             }
         }
     }
@@ -234,8 +230,9 @@ class ItemsController: UITableViewController, UISearchBarDelegate, UISearchResul
         let price       = json["cost"]
         let description = json["effect_entries"][0]["effect"]
         let sprite      = json["sprites"]["default"]
-        
-        items.append(Item(sprite: sprite.string ?? "", name: name.string?.capitalized.replacingOccurrences(of: "-", with: " ") ?? "", price: price.int ?? 0, description: description.string ?? ""))
+        DispatchQueue.main.async {
+            self.items.append(Item(sprite: sprite.string ?? "", name: name.string?.capitalized.replacingOccurrences(of: "-", with: " ") ?? "", price: price.int ?? 0, description: description.string ?? ""))
+        }
     }
     
     fileprivate func getItemURLS(json : JSON) {
